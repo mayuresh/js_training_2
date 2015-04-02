@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Angular JS - Controller - Service - Filter</title>
+    <script src="scripts/angular.js"></script>
+</head>
+
+<body ng-app="myApp">
+<div ng-controller="myCtrl">
+<input type="text" ng-model="name" placeholder="Enter name">
+    <button ng-click="addName()">Add</button>
+
+    <h1>Filtered list</h1>
+    <ol>
+        <li ng-repeat="n in names | myFilter">{{n}}</li>
+    </ol>
+
+    <h1>Unfiltered List</h1>
+    <ol>
+        <li ng-repeat="n in names">{{n}}</li>
+    </ol>
+
+</div>
+
+<script>
+    var app = angular.module('myApp', []);
+
+    app.factory("myService", [function () {
+        return({
+                items: [],
+                addName: function(name) {
+                    this.items.push(name);
+                }
+
+        })
+    }]);
+
+    app.controller('myCtrl', ['$scope', 'myService', function($scope, myService) {
+        $scope.addName = function() {
+            myService.addName($scope.name);
+            $scope.name = '';
+
+        };
+
+        $scope.names = myService.items;
+    }]);
+
+    app.filter('myFilter', [function () {
+        return function(items) {
+            var filtered = [];
+            for (var i = 0; i < items.length; i++) {
+                var item = items[i];
+                if(item.search(/day/) != -1) {
+                    filtered.push(item);
+                }
+            }
+            return filtered;
+        }
+    }])
+
+</script>
+
+</body>
+</html>
