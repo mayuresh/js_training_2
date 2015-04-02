@@ -9,8 +9,8 @@
 
 <body ng-app="myApp">
 <div ng-controller="myCtrl">
-    <a ui-sref="state1">State 1</a> |
-    <a ui-sref="state2">State 2</a> |
+    <a ui-sref="state1.list">State 1</a> |
+    <a ui-sref="state2.list">State 2</a> |
     <a ui-sref="state3">State 3</a>
 
     <br /><br />
@@ -45,9 +45,41 @@
         $scope.names = myService.items;
     }]);
 
+    app.filter('listFilter', [function () {
+        return function (items) {
+            var filtered = [];
+            for (var i = 0; i < items.length; i++) {
+                var item = items[i];
+                if (item.search(/day/) != -1) {
+                    filtered.push(item);
+                }
+            }
+            return filtered;
+        }
+    }]);
+    app.filter('capFilter', function () {
+        return function (text) {
+            return text.toString().toUpperCase();
+        }
+    });
+    app.directive('myList', function () {
+        return {
+            template: '<ol>\
+                            <li ng-repeat="n in names" ng-bind="n"></li>\
+                        </ol>'
+        };
+    });
+    app.directive('myElement', function () {
+        return {
+            scope: {
+                text: '=info'
+            },
+            template: '<span>Item - {{text}}</span>'
+        }
+    });
 
     app.config(function($stateProvider, $urlRouterProvider) {
-        $urlRouterProvider.otherwise("/state1/"); // By default route to state1
+        $urlRouterProvider.otherwise("/state1/list"); // By default route to state1
 
         $stateProvider
                 .state('state1', {
@@ -61,6 +93,13 @@
                         $scope.items = ["item 1", "item 2", "item 3"]
                     }
                 })
+                .state('state1.table', {
+                    url: "/table",
+                    templateUrl: "partials/state1.table.html",
+                    controller: function($scope) {
+                        $scope.items = ["item 1", "item 2", "item 3"]
+                    }
+                })
                 .state('state2', {
                     url: "state2",
                     templateUrl: "partials/state2.html"
@@ -68,9 +107,9 @@
                 .state('state2.list', {
                     url: "/list",
                     templateUrl: "partials/state2.list.html",
-                    controller: function($scope) {
-                        $scope.things = ["thing one", "Thing 2", "Thing 3"]
-                    }
+                    controller: ['$scope', 'myService', function($scope, myService) {
+                        $scope.things = myService.items;
+                    }]
                 })
                 .state('state3', {
                     url: "/state3",
