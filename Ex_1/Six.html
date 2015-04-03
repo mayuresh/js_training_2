@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Angular JS - Controller - Service - Directive</title>
+    <script src="scripts/angular.js"></script>
+</head>
+<body ng-app="myApp">
+<div ng-controller="myCtrl">
+    <input type="text" ng-model="name" placeholder="Enter text">
+    <button ng-click="addName()">Add</button>
+    <h1 my-color="Red">Filtered List</h1>
+    <ol>
+        <li ng-repeat="n in names | listFilter" ng-bind="n | capFilter"></li>
+    </ol>
+    <h1 my-color="Green">Unfiltered List</h1>
+    <ol>
+        <li ng-repeat="n in names" ng-bind="n"></li>
+    </ol>
+    <h1 my-color="Blue">List from directive</h1>
+
+    <div my-list></div>
+    <h1>List with directives - Isolate scope</h1>
+    <ol>
+        <li ng-repeat="n in names">
+            <my-element info="n"></my-element>
+        </li>
+    </ol>
+</div>
+<script>
+    var app = angular.module('myApp', []);
+    app.factory("myService", [function () {
+        return ({
+            items: [
+                'Text with day',
+                'Normal text'
+            ],
+            addName: function (name) {
+                this.items.push(name);
+            }
+        })
+    }]);
+    app.controller('myCtrl', ['$scope', 'myService', function ($scope, myService) {
+        $scope.addName = function () {
+            myService.addName($scope.name);
+            $scope.name = '';
+        };
+        $scope.names = myService.items;
+    }]);
+    app.filter('listFilter', [function () {
+        return function (items) {
+            var filtered = [];
+            for (var i = 0; i < items.length; i++) {
+                var item = items[i];
+                if (item.search(/day/) != -1) {
+                    filtered.push(item);
+                }
+            }
+            return filtered;
+        }
+    }]);
+    app.filter('capFilter', function () {
+        return function (text) {
+            return text.toString().toUpperCase();
+        }
+    });
+    app.directive('myList', function () {
+        return {
+            template: '<ol>\
+                            <li ng-repeat="n in names" ng-bind="n"></li>\
+                        </ol>'
+        };
+    });
+    app.directive('myElement', function () {
+        return {
+            scope: {
+                text: '=info'
+            },
+            template: '<span>Item - {{text}}</span>'
+        }
+    });
+</script>
+</body>
+</html>

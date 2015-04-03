@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <link rel="stylesheet" href="css/bootstrap-theme.css" />
+    <script src="scripts/angular.js"></script>
+    <script src="scripts/angular-ui-router.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+
+    <title>Bootstrap Page</title>
+</head>
+<body ng-app="myApp">
+<div class="container">
+<nav class="navbar navbar-inverse">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a ui-sref="state1">State 1</a></li>
+                <li><a ui-sref="state2">State 2</a></li>
+                <li><a ui-sref="state3">State 3</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+</div>
+
+<div class="container">
+
+    <div ui-view></div>
+
+</div><!-- /.container -->
+
+
+<script>
+    var app = angular.module('myApp', ['ui.router']);
+
+
+    app.config(function($stateProvider, $urlRouterProvider) {
+        $urlRouterProvider.otherwise("/state1/list"); // By default route to state1
+
+        $stateProvider
+                .state('state1', {
+                    url: "/state1",
+                    template: "<h1>State 1</h1>"
+                })
+
+                .state('state2', {
+                    url: "/state2",
+                    template: "<h1>State 2</h1>"
+                })
+
+                .state('state3', {
+                    url: "/state3",
+                    template: "<h1>State 3</h1>"
+
+                })
+    });
+
+
+</script>
+
+</body>
+</html>

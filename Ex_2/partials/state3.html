@@ -1,0 +1,37 @@
+<h1>State 3</h1>
+<hr/>
+
+<div class="row">
+    <div class="col-md-12">
+        <input type="text" ng-model="name" placeholder="Enter text">
+        <button ng-click="addName()">Add</button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <h1 my-color="Red">Filtered List</h1>
+        <ol>
+            <li ng-repeat="n in names | listFilter" ng-bind="n | capFilter"></li>
+        </ol>
+    </div>
+    <div class="col-md-3">
+        <h1 my-color="Green">Unfiltered List</h1>
+        <ol>
+            <li ng-repeat="n in names" ng-bind="n"></li>
+        </ol>
+    </div>
+    <div class="col-md-3">
+        <h1 my-color="Blue">List from directive</h1>
+
+        <div my-list></div>
+    </div>
+    <div class="col-md-3">
+        <h1>List with directives - Isolate scope</h1>
+        <ol>
+            <li ng-repeat="n in names">
+                <my-element info="n"></my-element>
+            </li>
+        </ol>
+    </div>
+</div>
