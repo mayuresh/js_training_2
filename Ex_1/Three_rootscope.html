@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Angular JS with Controller</title>
+    <script src="scripts/angular.js"></script>
+    <style>
+        .ng-scope  {
+            border: 1px solid red;
+            margin: 3px;
+        }
+    </style>
+</head>
+<body ng-app="myApp">
+
+<div ng-controller="myCtrl">
+<input type="text" ng-model="name" placeholder="Enter name">
+    <button ng-click="addName()">Add</button>
+
+    <h1>List 1</h1>
+    <ol>
+        <li ng-repeat="n in names">{{n}}</li>
+    </ol>
+
+</div>
+<hr />
+<div ng-controller="myCtrl">
+    <input type="text" ng-model="name" placeholder="Enter name">
+    <button ng-click="addName()">Add</button>
+
+    <h1>List 2</h1>
+    <ol>
+        <li ng-repeat="n in names">{{n}}</li>
+    </ol>
+
+    <h1>Root List</h1>
+    <ol>
+        <li ng-repeat="n in rootNames">{{n}}</li>
+    </ol>
+
+</div>
+<hr />
+<div ng-controller="myNewCtrl">
+    <input type="text" ng-model="name" placeholder="Enter name">
+    <button ng-click="addName()">Add</button>
+
+    <h1>List 3</h1>
+    <ol>
+        <li ng-repeat="n in rootNames">{{n}}</li>
+    </ol>
+
+</div>
+
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', ['$scope', '$rootScope', function($scope, $rootScope) {
+        $scope.addName = function() {
+         $scope.names.push($scope.name);
+        };
+
+        $scope.names = [
+                'Name 1',
+                'Name 2'
+        ];
+    }]);
+
+    app.controller('myNewCtrl', ['$scope', '$rootScope', function($scope, $rootScope) {
+        $rootScope.addName = function() {
+            $rootScope.rootNames.push($scope.name);
+        };
+
+        $rootScope.rootNames = [
+            'Name Root 1',
+            'Name Root 2'
+        ];
+    }]);
+
+</script>
+
+</body>
+</html>

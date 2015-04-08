@@ -17,12 +17,13 @@
 
 </div>
 
-<div ng-controller="myCtrl">
+<div ng-controller="myCtrl1">
     <input type="text" ng-model="name" placeholder="Enter name">
     <button ng-click="addName()">Add</button>
 
     <h1>List 2</h1>
     <ol>
+
         <li ng-repeat="n in names">{{n}}</li>
     </ol>
 
@@ -33,7 +34,10 @@
 
     app.factory("myService", [function () {
         return({
-                items: [],
+                items: [
+                    'Name 1',
+                    'Name 2'
+                ],
                 addName: function(name) {
                     this.items.push(name);
                 }
@@ -42,6 +46,16 @@
     }]);
 
     app.controller('myCtrl', ['$scope', 'myService', function($scope, myService) {
+        $scope.addName = function() {
+            myService.addName($scope.name);
+            $scope.name = '';
+
+        };
+
+        $scope.names = myService.items;
+    }]);
+
+    app.controller('myCtrl1', ['$scope', 'myService', function($scope, myService) {
         $scope.addName = function() {
             myService.addName($scope.name);
             $scope.name = '';
