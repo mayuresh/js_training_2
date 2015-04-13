@@ -10,7 +10,7 @@
 <div ng-controller="myCtrl">
 <input type="text" ng-model="name" placeholder="Enter name">
     <button ng-click="addName()">Add</button>
-
+<br/>{{test}}
     <h1>Filtered list</h1>
     <ol>
         <li ng-repeat="n in names | myFilter">{{n}}</li>
@@ -28,7 +28,11 @@
 
     app.factory("myService", [function () {
         return({
-                items: [],
+                items: [
+                        'item one',
+                        'item day',
+                        'Sunday'
+                ],
                 addName: function(name) {
                     this.items.push(name);
                 }
@@ -36,20 +40,21 @@
         })
     }]);
 
-    app.controller('myCtrl', ['$scope', 'myService', function($scope, myService) {
+    app.controller('myCtrl', ['$scope', '$filter', 'myService', function($scope, $filter, myService) {
         $scope.addName = function() {
             myService.addName($scope.name);
             $scope.name = '';
 
         };
-
+        $scope.test = $filter('capFilter')('abc');
         $scope.names = myService.items;
     }]);
 
-    app.filter('myFilter', [function () {
-        return function(items) {
+    app.filter('myFilter', function () {
+        var filter = function(items) {
             var filtered = [];
             for (var i = 0; i < items.length; i++) {
+
                 var item = items[i];
                 if(item.search(/day/) != -1) {
                     filtered.push(item);
@@ -57,7 +62,15 @@
             }
             return filtered;
         }
-    }])
+
+        return filter;
+    });
+
+    app.filter('capFilter', function () {
+        return function (text) {
+            return text.toString().toUpperCase();
+        }
+    });
 
 </script>
 
