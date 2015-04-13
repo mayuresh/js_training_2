@@ -17,10 +17,14 @@
     <ol>
         <li ng-repeat="n in names" ng-bind="n"></li>
     </ol>
-    <h1 my-color="Blue">List from directive</h1>
 
-    <div my-list></div>
+    <h1>List from directive</h1>
+
+    <my-list></my-list>
+
+
     <h1>List with directives - Isolate scope</h1>
+    <my-element info="ABCD"></my-element>
     <ol>
         <li ng-repeat="n in names">
             <my-element info="n"></my-element>
@@ -46,6 +50,7 @@
             $scope.name = '';
         };
         $scope.names = myService.items;
+
     }]);
     app.filter('listFilter', [function () {
         return function (items) {
@@ -66,9 +71,7 @@
     });
     app.directive('myList', function () {
         return {
-            template: '<ol>\
-                            <li ng-repeat="n in names" ng-bind="n"></li>\
-                        </ol>'
+            templateUrl: "myTemplate.html"
         };
     });
     app.directive('myElement', function () {

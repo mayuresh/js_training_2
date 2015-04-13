@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>AutoComplete Example</title>
+    <script src="scripts/angular.js"></script>
+    <link rel="stylesheet" href="css/autocomplete.css" />
+</head>
+<body ng-app="myApp">
+
+<div class="container" ng-controller="TypeAheadController">
+    <h1>Autocomplete Example with two autocomplete lists</h1>
+    <h3>Type 'A', 'AB', 'ABC' for demo</h3>
+    <type-ahead items="items" favitems="favitems" prompt="Start typing" title="name" subtitle="abbreviation" model="name" on-select="onItemSelected()" />
+</div>
+
+<script>
+    var typeAhead = angular.module('myApp', []);
+
+    typeAhead.factory('dataFactory', ['$http', function($http) {
+        return {
+            get: function(url) {
+                return $http.get(url).then(function(resp) {
+                    return resp.data; // success callback returns this
+                });
+            }
+        };
+    }]);
+
+    typeAhead.controller('TypeAheadController', ['$scope', 'dataFactory', function($scope, dataFactory) { // DI in action
+        dataFactory.get('Data/Data1.json').then(function(data) {
+            $scope.items = data["Data1"];
+        });
+        dataFactory.get('Data/Data2.json').then(function(data) {
+            $scope.favitems = data["Data2"];
+        });
+        $scope.name = ''; // This will hold the selected item
+        $scope.onItemSelected = function() { // this gets executed when an item is selected
+            console.log('selected=' + $scope.name);
+        };
+    }]);
+
+    typeAhead.directive('typeAhead', function($timeout) {
+        return {
+            restrict: 'AEC',
+            scope: {
+                items: '=',
+                favitems: '=',
+                prompt: '@',
+                title: '@',
+                subtitle: '@',
+                model: '='
+
+            },
+            link: function(scope, elem, attrs) {
+                scope.handleSelection = function(selectedItem) {
+                    scope.model = selectedItem;
+                    scope.current = 0;
+                    scope.selected = true;
+                    $timeout(function() {
+                        scope.onSelect();
+                    }, 200);
+                };
+                scope.current = 0;
+                scope.selected = true; // hides the list initially
+                scope.isCurrent = function(index) {
+                    return scope.current == index;
+                };
+                scope.setCurrent = function(index) {
+                    scope.current = index;
+                };
+            },
+            templateUrl: 'auto-complete-template.html'
+        };
+    });
+
+</script>
+</body>
+</html>
