@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Angular JS - Controller - Service - Directive - Routing</title>
+    <script src="scripts/angular.js"></script>
+    <script src="scripts/angular-ui-router.js"></script>
+</head>
+
+<body ng-app="myApp">
+<div ng-controller="nameCtrl">
+    <h1>Synerzip</h1>
+
+    <a ui-sref="state1">State 1</a> |
+    <a ui-sref="state2">State 2</a> |
+    <a ui-sref="state3">State 3</a>
+
+
+    <h2>Content</h2>
+
+    <div ui-view></div>
+
+    <h2>Footer</h2>
+</div>
+
+<script src="app/common/common.module.js"></script>
+<script src="app/common/directives/listItem.js"></script>
+<script src="app/names/names.module.js"></script>
+<script src="app/names/services/names.service.js"></script>
+<script src="app/names/filter/names.filter.js"></script>
+<script src="app/names/controllers/names.controller.js"></script>
+<script src="app/names/config/routes.js"></script>
+<script src="app/app.js"></script>
+
+</body>
+</html>

@@ -11,6 +11,9 @@
 <div class="container" ng-controller="TypeAheadController">
     <h1>Autocomplete Example with two autocomplete lists</h1>
     <h3>Type 'A', 'AB', 'ABC' for demo</h3>
+    <!--
+    items and favitems are taken from the scope.
+    -->
     <type-ahead items="items" favitems="favitems" prompt="Start typing" title="name" subtitle="abbreviation" model="name" on-select="onItemSelected()" />
 </div>
 

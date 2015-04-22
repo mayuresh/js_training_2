@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Highlight JS test</title>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/styles/darkula.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/highlight.min.js"></script>
+    <script src="scripts/angular.js"></script>
+    <script src="scripts/angular-sanitize.js"></script>
+</head>
+<body ng-app="myApp">
+<h1>Code highlight sample</h1>
+
+<div ng-controller="myCtrl" style="width: 400px;">
+    <div ng-bind-html="codeblock | codeHighLight">
+
+    </div>
+</div>
+
+
+<script>
+    var app = angular.module('myApp', ['ngSanitize']);
+
+    app.factory("codeFactory", ['$http', function ($http) {
+        return {
+            get: function (url) {
+                return $http.get(url).then(function (resp) {
+                    return resp.data; // success callback returns this
+                });
+            }
+        }
+
+    }]);
+
+    app.controller("myCtrl", ['$scope', 'codeFactory', function ($scope, codeFactory) {
+        codeFactory.get('data.json').then(function (data) {
+            $scope.codeblock = data["CodeBlock"];
+        })
+    }]);
+
+    app.filter("codeHighLight", function () {
+        return function(text) {
+            var highLightedCode = hljs.highlightAuto(text);
+
+            return "<pre><code class='hljs " + highLightedCode.language + "'>" + highLightedCode.value + "</code></pre>";
+
+        }
+    })
+</script>
+
+</body>
+</html>
