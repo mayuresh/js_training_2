@@ -1,0 +1,3 @@
+{
+    "CodeBlock" : "var app = angular.module('myApp', ['ngSanitize']);"
+}
