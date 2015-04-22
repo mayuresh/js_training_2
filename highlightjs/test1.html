@@ -12,7 +12,10 @@
 <body ng-app="myApp">
 <h1>Code highlight sample</h1>
 
-<div ng-controller="myCtrl" style="width: 400px;">
+<div ng-controller="myCtrl" style="width: 600px;">
+    <div>
+        <textarea ng-model="codeblock" rows="10" cols="60"></textarea>
+    </div>
     <div ng-bind-html="codeblock | codeHighLight">
 
     </div>
@@ -22,28 +25,22 @@
 <script>
     var app = angular.module('myApp', ['ngSanitize']);
 
-    app.factory("codeFactory", ['$http', function ($http) {
-        return {
-            get: function (url) {
-                return $http.get(url).then(function (resp) {
-                    return resp.data; // success callback returns this
-                });
-            }
-        }
 
-    }]);
+    app.controller("myCtrl", ['$scope', function ($scope) {
 
-    app.controller("myCtrl", ['$scope', 'codeFactory', function ($scope, codeFactory) {
-        codeFactory.get('data.json').then(function (data) {
-            $scope.codeblock = data["CodeBlock"];
-        })
     }]);
 
     app.filter("codeHighLight", function () {
         return function(text) {
-            var highLightedCode = hljs.highlightAuto(text);
 
-            return "<pre><code class='hljs " + highLightedCode.language + "'>" + highLightedCode.value + "</code></pre>";
+            if (text) {
+
+                var highLightedCode = hljs.highlightAuto(text);
+
+                return "<pre><code class='hljs " + highLightedCode.language + "'>" + highLightedCode.value + "</code></pre>";
+            } else {
+                return text;
+            }
 
         }
     })
