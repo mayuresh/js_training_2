@@ -9,28 +9,17 @@
 <h1>AngularJS Example 2 - Controller</h1>
 
 <div ng-controller="myCtrl">
-    <h2>Add Names to List</h2>
-    <input type="text" ng-model="nameToAdd" placeholder="Enter name">
-    <button ng-click="addName()">Add</button>
 
-    <h2>List</h2>
-    <ol>
-        <li ng-repeat="n in names" ng-bind="n"></li>
-    </ol>
+
+    <h2>Name</h2>
+    {{name}}
 
 </div>
 <script>
     var app = angular.module('myApp', []);
     app.controller('myCtrl', function ($scope) {
-        $scope.addName = function () {
-            $scope.names.push($scope.name);
-            $scope.name = '';
-        };
 
-        $scope.names = [
-            'Tesla',
-            'Newton'
-        ];
+        $scope.name = 'Tesla';
     });
 </script>
 
