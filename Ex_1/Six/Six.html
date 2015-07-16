@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>AngularJS Example 5 - Filters</title>
+
+</head>
+<body ng-app="myApp">
+<h1>AngularJS Example 5 - Filters</h1>
+
+<div ng-controller="myCtrl">
+    <h2>Add Names to List</h2>
+    <input type="text" ng-model="name" placeholder="Enter name">
+    <button ng-click="addName()">Add</button>
+
+    <h2>List</h2>
+    <ol>
+        <li ng-repeat="n in names" ng-bind="n"></li>
+    </ol>
+
+
+    <h2>List Capitalised</h2>
+    <ol>
+        <li ng-repeat="n in names" ng-bind="n | capitaliseFilter"></li>
+    </ol>
+
+    <h2>List filtered to show only planets</h2>
+    <ol>
+        <li ng-repeat="n in names | planetFilter" ng-bind="n"></li>
+    </ol>
+
+</div>
+
+<script src="../scripts/angular.js"></script>
+<script src="app/name/name.module.js"></script>
+<script src="app/name/services/name.service.js"></script>
+<script src="app/name/controllers/name.controller.js"></script>
+<script src="app/name/filters/name.filters.js"></script>
+<script src="app/common/common.module.js"></script>
+<script src="app/common/filters/common.filters.js"></script>
+<script src="app/app.js"></script>
+
+
+</body>
+</html>
