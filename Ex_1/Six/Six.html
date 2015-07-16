@@ -29,6 +29,12 @@
         <li ng-repeat="n in names | planetFilter" ng-bind="n"></li>
     </ol>
 
+    <h2>List filtered by input</h2>
+    <input type="text" ng-init="filterString=''" ng-model="filterString" placeholder="Enter filter string">
+    <ol>
+        <li ng-repeat="n in names | genericStringFilter:filterString" ng-bind="n"></li>
+    </ol>
+
 </div>
 
 <script src="../scripts/angular.js"></script>
