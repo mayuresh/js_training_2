@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Todo App - Using AngularJS</title>
+
+    <link rel="stylesheet" href="app/css/main.css">
+</head>
+<body ng-app="myApp">
+
+<div ng-controller="TaskListCtrl" >
+
+<h1>Todo App</h1>
+    <div class="description">
+        <ul>
+    <li>Enter task and click on Add to add a task</li>
+    <li>Click filters All | Active | Completed to view tasks in that state</li>
+    <li>Checking the checkbox marks a task as completed</li>
+    <li>Clicking X deletes the task</li>
+</ul>
+    </div>
+<div>
+    <input id="todo" placeholder="Enter task ... " type="text" ng-model="newTask.task" ng-keypress="keyPress()">
+    <input type="hidden" ng-model="newTask.completed">
+    <button id="addTodo" ng-click="addTodo()">Add</button>
+</div>
+
+<br>
+    <div>
+        Show <a href="#" ng-click="criteria = 'All';" ng-class="{'selected': criteria == 'All'}">All</a> |
+        <a href="#" ng-click="criteria = 'Active';" ng-class="{'selected': criteria == 'Active'}">Active</a> |
+        <a href="#" ng-click="criteria='Completed'" ng-class="{'selected': criteria == 'Completed'}">Completed</a>
+        <button id="clearCompleted" ng-click="removeCompleted()">Clear all completed tasks</button>
+    </div>
+    <br />
+
+<div ng-repeat="item in todos.items | TaskFilter:criteria">
+    <div >
+        <input type="checkbox" ng-model="item.completed" >
+        <editable-label value="item.task" ng-class="{ 'completed' : item.completed }"></editable-label>
+<!--        <span ng-bind="item.task" ng-class="{ 'completed' : item.completed }"></span> -->
+        <button id="deleteTask1" ng-click="remove()">X</button>
+    </div>
+
+</div>
+
+<br><hr>
+
+<div>
+    <button id="clearCompleted" ng-click="removeCompleted()">Clear all completed tasks</button>
+</div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="app/lib/angular.min.js"></script>
+<script src="app/lib/bootstrap.min.js"></script>
+
+<script src="app/scripts/common/common.module.js"></script>
+<script src="app/scripts/common/directives/editablelabel.js"></script>
+<script src="app/scripts/todo/todo.module.js"></script>
+<script src="app/scripts/todo/controllers/todo.controller.js"></script>
+<script src="app/scripts/todo/services/todo.service.js"></script>
+<script src="app/scripts/todo/filter/todo.filter.js"></script>
+<script src="app/scripts/app.js"></script>
+</body>
+</html>
