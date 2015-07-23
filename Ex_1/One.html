@@ -7,13 +7,15 @@
 </head>
 <body ng-app>
 <div>
+    <h1>AngularJS Example 1 - Two way data binding</h1>
 
-<label>Name: </label>
-<input type="text" ng-model="name" placeholder="Enter Name">
-    <h1>Hello {{name}}</h1>
-    <h2>Hello {{name}}</h2>
-    <h3>Hello {{name}}</h3>
-    <h4>Hello {{name}}</h4>
+    <label>Enter Text: </label>
+    <input type="text" ng-model="myText" placeholder="Enter Text">
+    <br/><br/>
+    <div>Text : {{myText}}</div>
+    <br/>
+    <div>Text : <span ng-bind="myText"></span></div>
+
 </div>
 </body>
 </html>

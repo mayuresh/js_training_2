@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>AngularJS Example 7 - Directives</title>
+
+</head>
+<body ng-app="myApp">
+<h1>AngularJS Example 7 - Directives</h1>
+
+<div ng-controller="myCtrl">
+
+
+    <h2>Add Names to List</h2>
+    <input type="text" ng-model="name" placeholder="Enter name">
+    <button ng-click="addName()">Add</button>
+
+    <name-list></name-list>
+
+    <generic-list collection="names" heading="Generic List"></generic-list>
+
+    <h2>List filtered by input</h2>
+    <input type="text" ng-init="filterString=''" ng-model="filterString" placeholder="Enter filter string">
+    <ol>
+        <li ng-repeat="n in names | genericStringFilter:filterString" ng-bind="n"></li>
+    </ol>
+
+</div>
+
+<script src="../scripts/angular.js"></script>
+<script src="app/name/name.module.js"></script>
+<script src="app/name/services/name.service.js"></script>
+<script src="app/name/controllers/name.controller.js"></script>
+<script src="app/name/filters/name.filters.js"></script>
+<script src="app/name/directives/name.directive.js"></script>
+<script src="app/common/common.module.js"></script>
+<script src="app/common/filters/common.filters.js"></script>
+<script src="app/common/directives/genericList.directive.js"></script>
+
+<script src="app/app.js"></script>
+
+</body>
+</html>

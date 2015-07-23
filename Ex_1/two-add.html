@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Angular JS with Controller</title>
+    <script src="scripts/angular.js"></script>
+</head>
+<body ng-app="myApp">
+<h1>AngularJS Example 2 - Controller</h1>
+
+<div ng-controller="myCtrl">
+    <h2>Add numbers</h2>
+    <input type="text" ng-model="number1" placeholder="Enter number">
+    <br /><br />
+    <input type="text" ng-model="number2" placeholder="Enter number">
+    <br /><br />
+    <button ng-click="addNumbers()">Add</button>
+    <button ng-click="multiplyNumbers()">Multiply</button>
+    <h2>Result</h2>
+    {{result}}
+
+</div>
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function ($scope) {
+        $scope.addNumbers = function () {
+            $scope.result = parseInt($scope.number1) + parseInt($scope.number2);
+        };
+
+        $scope.multiplyNumbers = function () {
+            $scope.result = parseInt($scope.number1) * parseInt($scope.number2);
+        };
+
+    });
+</script>
+
+</body>
+</html>

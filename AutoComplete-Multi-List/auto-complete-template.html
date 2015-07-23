@@ -10,3 +10,13 @@
 
     </div>
 </div>
+
+<div class="items" ng-hide="!model.length || selected">
+    <h3>Favorite items</h3>
+    <div class="item" ng-repeat="item in favitems | filter:model  track by $index"
+         ng-click="handleSelection(item)" style="cursor:pointer"
+         ng-class="{active:isCurrent($index)}" ng-mouseenter="setCurrent($index)">
+        <p class="title">{{item}}</p>
+
+    </div>
+</div>
