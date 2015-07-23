@@ -39,11 +39,13 @@ angular.module("todo").
         };
 
         todoService.removeCompleted = function () {
-            this.items.forEach(function (item) {
-                if (item.completed) {
-                    item.deleted = true;
+            var newitems = [];
+            for(var i = 0; i < this.items.length; i++) {
+                if (! this.items[i].completed) {
+                    newitems.push(this.items[i]);
                 }
-            })
+            }
+            this.items = newitems;
         };
 
         return todoService;
