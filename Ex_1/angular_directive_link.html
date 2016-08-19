@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Angular JS - Directive with link</title>
+    <script src="scripts/angular.js"></script>
+</head>
+<body ng-app="myApp">
+<div ng-controller="myCtrl">
+    <input type="text" ng-model="name" placeholder="Enter text">
+    <button ng-click="addName()">Add</button>
+
+    <h1>Directive with link</h1>
+    <div my-link chart-data="names"></div>
+
+</div>
+<script>
+    var app = angular.module('myApp', []);
+    app.factory("myService", [function () {
+        return ({
+            items: [
+                'Disease 1',
+                'Disease 2'
+            ],
+            addName: function (name) {
+                this.items.push(name);
+            }
+        })
+    }]);
+    app.controller('myCtrl', ['$scope', 'myService', function ($scope, myService) {
+        $scope.addName = function () {
+            myService.addName($scope.name);
+            $scope.name = '';
+        };
+        $scope.names = myService.items;
+
+    }]);
+    app.directive('myLink', function () {
+       return {
+           scope: {
+               data: '=chartData'
+           },
+           link: function (scope, element, attrs) {
+               element.append("<ol></ol>");
+               var listElement = element.find("ol");
+               scope.data.forEach(function(d) {
+                  listElement.append("<li>" + d + "</li>");
+               });
+
+               scope.$watchCollection("data", function(newValue, oldValue) {
+                   console.log("Old value" + oldValue);
+                   console.log("New value" + newValue);
+                   console.log(newValue.length - oldValue.length);
+                   var numNewElements = newValue.length - oldValue.length;
+                   var listElement = element.find("ol");
+                   for (var i = 0; i < numNewElements; i++) {
+                       var d = newValue.pop();
+                       console.log("Added value " + d);
+                       listElement.append("<li>" + d + "</li>");
+                   }
+               });
+               console.log(scope.data);
+           }
+       }
+    });
+</script>
+</body>
+</html>
